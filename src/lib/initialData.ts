@@ -310,6 +310,84 @@ export const initialData: AppDatabase = {
         results_en: "Sold out Phase 1 within 48 hours of launch, generating over 1.2 Billion EGP in qualified contractual sales while reducing cost per qualified lead by 38%.",
         results_ar: "بيع المرحلة الأولى بالكامل خلال 48 ساعة من الإطلاق، محققاً مبيعات تتجاوز 1.2 مليار جنيه، مع خفض تكلفة العميل المؤهل بنسبة 38%."
       }
+    },
+    {
+      id: "proj-5",
+      slug: "kenz-retail-logistics",
+      company_name_en: "Kenz Logistics & Retail",
+      company_name_ar: "كنز اللوجستية والتجارة الإلكترونية",
+      company_logo: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80",
+      title_en: "E-Commerce Disruptor & National Performance Blitz",
+      title_ar: "إطلاق منصة تجارة إلكترونية وحملة تسويق أداء قومية",
+      category_en: "Media Buying & Performance",
+      category_ar: "تسويق الأداء ونمو المبيعات",
+      tag_en: "E-Commerce Disruption",
+      tag_ar: "التجارة الإلكترونية والنمو",
+      desc_en: "Scaling a modern fulfillment and retail platform to 1.8M active shoppers with data-driven funnel optimization and hyper-local media buying.",
+      desc_ar: "توسيع وتنمية منصة تجارة إلكترونية لوجستية حديثة لتصل إلى 1.8 مليون متسوق نشط عبر إعلانات الأداء الموجهة وتحسين مسارات الشراء الرقمية.",
+      year: "2026",
+      hero_image: "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1600&q=85",
+      gallery: [
+        "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=1200&q=80"
+      ],
+      featured: true,
+      display_order: 5,
+      active: true,
+      metrics: [
+        { val: "+340%", lbl_en: "Return on Ad Spend (ROAS)", lbl_ar: "العائد على الإنفاق الإعلاني" },
+        { val: "1.8M", lbl_en: "Active App Installs", lbl_ar: "تحميل وتثبيت للتطبيق" },
+        { val: "42M EGP", lbl_en: "Gross Quarterly GMV", lbl_ar: "إجمالي المبيعات الربع سنوية" }
+      ],
+      case_study: {
+        challenge_en: "Entering an intensely competitive delivery market with low initial consumer awareness and high ad costs.",
+        challenge_ar: "دخول سوق التجارة والتوصيل السريع وسط منافسة شرسة وارتفاع غير مسبوق في تكلفة الإعلانات التقليدية.",
+        strategy_en: "Built an automated multi-variant creative testing machine, hyper-local neighborhood offers, and VIP influencer unboxings.",
+        strategy_ar: "بناء محرك اختبار إعلاني مؤتمت ينتج مئات الصيغ الإعلانية أسبوعياً، مع عروض مخصصة لكل حي ومحافظة.",
+        execution_en: "Managed cross-platform performance campaigns on TikTok, Snapchat, and Meta with automated bidding and real-time ROAS dashboards.",
+        execution_ar: "إدارة حملات إعلانية ممولة مكثفة على تيك توك وسناب شات وميتا مرتبطة بلوحة تحكم لحظية لقياس العائد على كل قرش مستثمر.",
+        results_en: "Maintained +340% ROAS throughout Black Friday, captured 1.8 million installs, and achieved full operational profitability in 9 months.",
+        results_ar: "الحفاظ على عائد إعلاني 340% وتجاوز 1.8 مليون مستخدم وتحقيق الربحية التشغيلية الكاملة خلال 9 أشهر فقط."
+      }
+    },
+    {
+      id: "proj-6",
+      slug: "el-sewedy-living",
+      company_name_en: "El Sewedy Living & Surfaces",
+      company_name_ar: "السويدي لأسطح وتصميمات المعيشة",
+      company_logo: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=300&q=80",
+      title_en: "Heritage Brand Revitalization & Cinematic Campaign",
+      title_ar: "إحياء علامة معمارية راقية وحملة سينمائية متكاملة",
+      category_en: "Brand Identity & Film Production",
+      category_ar: "الهوية البصرية والإنتاج السينمائي",
+      tag_en: "Luxury Architectural Living",
+      tag_ar: "العمارة والديكور الفاخر",
+      desc_en: "Elevating an Egyptian manufacturing titan into an international luxury design symbol through sculptural typography and cinematic brand documentary.",
+      desc_ar: "الارتقاء بصرح صناعي ومعماري مصري إلى مصاف علامات التصميم الداخلي الفاخرة عبر تايبوغرافي أيقوني وفيلم وثائقي سينمائي مبهر.",
+      year: "2025",
+      hero_image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=85",
+      gallery: [
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+      ],
+      featured: false,
+      display_order: 6,
+      active: true,
+      metrics: [
+        { val: "+280%", lbl_en: "Brand Equity Index", lbl_ar: "نمو القيمة التقديرية للعلامة" },
+        { val: "4.5M", lbl_en: "Organic Cinema Views", lbl_ar: "مشاهدة عضوية للحملة السينمائية" },
+        { val: "#1 Top", lbl_en: "Luxury Interior Category", lbl_ar: "المركز الأول في فئة الديكور الراقي" }
+      ],
+      case_study: {
+        challenge_en: "Moving public perception from industrial building materials to high-end artistic lifestyle surfaces.",
+        challenge_ar: "نقل الصورة الذهنية لدى الجمهور من مجرد مواد بناء وتصنيع إلى علامة رائدة في أسلوب الحياة العصري والتصميم الراقي.",
+        strategy_en: "Positioning marble, ceramics, and stone as timeless art forms through an architectural documentary film shot on location across Egypt and Italy.",
+        strategy_ar: "تقديم الرخام والأسطح كتحف فنية خالدة عبر فيلم وثائقي سينمائي تم تصويره في مواقع تراثية بمصر وإيطاليا.",
+        execution_en: "Crafted a gallery-style exhibition catalog, luxury showroom interactive displays, and an emotional anthem film broadcast on premier TV.",
+        execution_ar: "تصميم كتالوج فني فاخر للمهندسين والمصممين، وشاشات تفاعلية في صالات العرض، وإطلاق الفيلم الرئيسي على كبرى الشاشات.",
+        results_en: "Elevated the brand to #1 preferred supplier for Cairo top luxury interior designers with 4.5 million organic views.",
+        results_ar: "أصبحت العلامة الخيار الأول لكبار المصممين والمعماريين في مصر مع انتشار عضوي تخطى 4.5 مليون مشاهدة."
+      }
     }
   ],
   leads: [

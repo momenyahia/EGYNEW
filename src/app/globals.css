@@ -110,10 +110,9 @@ h1, h2, h3, h4, .font-heading {
   }
 }
 
-/* Grain overlay */
-.bg-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Smooth Ambient Light Utility */
+.bg-ambient-glow {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 212, 0, 0.035) 0%, transparent 70%);
 }
 
 /* ==========================================================================
@@ -171,4 +170,6 @@ html.light .text-white\/50 {
 .light-only-logo {
   display: none !important;
 }
+
+
 

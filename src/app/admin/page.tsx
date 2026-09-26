@@ -259,7 +259,7 @@ export default function AdminPage() {
       alert("No leads to export.");
       return;
     }
-    const headers = ["ID", "Full Name", "Company", "Email", "Phone", "Service", "Status", "Source", "Date", "Notes"];
+    const headers = ["ID", "Full Name", "Company", "Email", "Phone", "Service", "Budget Tier", "Timeline", "Status", "Source", "Date", "Notes"];
     const rows = leads.map((l) => [
       l.id,
       `"${l.fullName.replace(/"/g, '""')}"`,
@@ -267,6 +267,8 @@ export default function AdminPage() {
       l.email,
       `"${l.phone}"`,
       `"${l.serviceNeeded}"`,
+      `"${l.budgetTier || "N/A"}"`,
+      `"${l.timeline || "N/A"}"`,
       l.status,
       `"${l.source}"`,
       new Date(l.createdAt).toLocaleDateString(),
@@ -845,6 +847,7 @@ export default function AdminPage() {
                   <tr>
                     <th className="p-4">Contact</th>
                     <th className="p-4">Service Needed</th>
+                    <th className="p-4">Budget & Timeline</th>
                     <th className="p-4">Source</th>
                     <th className="p-4">Date</th>
                     <th className="p-4">Status</th>
@@ -854,7 +857,7 @@ export default function AdminPage() {
                 <tbody className="divide-y divide-white/[0.06]">
                   {filteredLeads.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="p-8 text-center text-white/40 font-mono">
+                      <td colSpan={7} className="p-8 text-center text-white/40 font-mono">
                         No inquiries match the current filter.
                       </td>
                     </tr>
@@ -876,6 +879,20 @@ export default function AdminPage() {
                           {lead.message && (
                             <span className="text-white/60 line-clamp-2 mt-1 text-[11px]">
                               {lead.message}
+                            </span>
+                          )}
+                        </td>
+                        <td className="p-4">
+                          {lead.budgetTier ? (
+                            <span className="inline-block px-2 py-0.5 bg-[#FFD400]/15 text-[#FFD400] font-mono text-[11px] border border-[#FFD400]/30 rounded mb-1">
+                              {lead.budgetTier}
+                            </span>
+                          ) : (
+                            <span className="text-white/30 text-[11px] font-mono block">—</span>
+                          )}
+                          {lead.timeline && (
+                            <span className="block text-white/50 text-[10px] font-mono">
+                              {lead.timeline}
                             </span>
                           )}
                         </td>

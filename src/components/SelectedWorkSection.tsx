@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Grid3X3, ListFilter, Play, Film } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, Play, Film } from "lucide-react";
 import Link from "next/link";
 import { Language, translations } from "@/lib/translations";
 import { Project, SiteSettings } from "@/types";
@@ -20,9 +20,6 @@ export default function SelectedWorkSection({
   settings,
   onSelectProject
 }: SelectedWorkSectionProps) {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [viewMode, setViewMode] = useState<"carousel" | "stream">("carousel");
   const [isMobile, setIsMobile] = useState(false);
   const t = translations[lang].work;
 
@@ -51,33 +48,7 @@ export default function SelectedWorkSection({
     .filter((p) => p.active !== false && p.status !== "archived")
     .sort((a, b) => (a.display_order ?? 99) - (b.display_order ?? 99));
 
-  // Desktop: 3 per view | Mobile: 1 per view (Roadmap Section 07)
-  const itemsPerPage = isMobile ? 1 : 3;
-  const totalPages = Math.max(1, Math.ceil(activeProjects.length / itemsPerPage));
-
-  // Reset page if filtered projects count shrinks
-  useEffect(() => {
-    if (currentPage >= totalPages) {
-      setCurrentPage(0);
-    }
-  }, [totalPages, currentPage]);
-
-  const displayedProjects = activeProjects.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
-  };
-
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
-  };
-
-  // Determine grid columns dynamically based on item count so 1 or 2 items look centered and well-proportioned
+  // Determine dynamic grid classes for 1, 2, or 3+ projects
   const getGridClasses = (count: number) => {
     if (isMobile) return "grid-cols-1 max-w-lg mx-auto";
     if (count === 1) return "grid-cols-1 max-w-xl mx-auto";
@@ -88,8 +59,8 @@ export default function SelectedWorkSection({
   return (
     <section id="work" className="relative py-28 sm:py-36 bg-[#080808] border-t border-white/[0.06] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
-        {/* Header Bar */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        {/* Clean Editorial Header Bar */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 sm:mb-20">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="font-mono text-xs uppercase tracking-widest text-[#FFD400]">
@@ -102,62 +73,12 @@ export default function SelectedWorkSection({
             </h2>
           </div>
 
-          {/* Controls: View Mode & Carousel Pagination */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 self-start md:self-auto">
-            {/* View Mode Switcher */}
-            <div className="flex items-center p-1 bg-white/[0.04] border border-white/10 rounded">
-              <button
-                onClick={() => setViewMode("carousel")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono uppercase tracking-wider transition-colors ${
-                  viewMode === "carousel"
-                    ? "bg-[#FFD400] text-black font-bold shadow-lg"
-                    : "text-white/60 hover:text-white"
-                }`}
-                title={lang === "ar" ? "عرض 3 في 3" : "3-in-View Carousel"}
-              >
-                <Grid3X3 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{lang === "ar" ? "3 بـ 3" : "3 by 3"}</span>
-              </button>
-              <button
-                onClick={() => setViewMode("stream")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono uppercase tracking-wider transition-colors ${
-                  viewMode === "stream"
-                    ? "bg-[#FFD400] text-black font-bold shadow-lg"
-                    : "text-white/60 hover:text-white"
-                }`}
-                title={lang === "ar" ? "عرض متتابع تحت بعض" : "Vertical Stream"}
-              >
-                <ListFilter className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{lang === "ar" ? "تحت بعض" : "Stream"}</span>
-              </button>
-            </div>
-
-            {/* Pagination Controls in Carousel Mode */}
-            {viewMode === "carousel" && totalPages > 1 && (
-              <div className="flex items-center gap-4">
-                <div className="font-mono text-xs text-white/50 tracking-widest">
-                  <span className="text-white font-bold">0{currentPage + 1}</span> / <span>0{totalPages}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handlePrev}
-                    className="p-3 rounded-full border border-white/20 text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
-                    aria-label="Previous Projects"
-                    data-cursor="PREV"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="p-3 rounded-full border border-white/20 text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
-                    aria-label="Next Projects"
-                    data-cursor="NEXT"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
+          {/* Project Count Indicator */}
+          <div className="flex items-center gap-3 self-start md:self-auto text-xs font-mono tracking-widest text-white/40 uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#FFD400] animate-pulse" />
+            <span>
+              {activeProjects.length} {lang === "ar" ? "مشاريع استثنائية" : "Selected Masterpieces"}
+            </span>
           </div>
         </div>
 
@@ -170,123 +91,26 @@ export default function SelectedWorkSection({
           </div>
         )}
 
-        {/* CAROUSEL MODE: 3 by 3 with directional slide transitions */}
-        {viewMode === "carousel" && activeProjects.length > 0 && (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`${currentPage}-${isMobile}`}
-              initial={{ opacity: 0, x: direction * 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -direction * 40 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className={`grid gap-8 sm:gap-10 ${getGridClasses(displayedProjects.length)}`}
-            >
-              {displayedProjects.map((project, idx) => (
+        {/* Continuous 3-by-3 Scroll Cascade Grid:
+            - Left card (index % 3 === 0): enters from Left
+            - Center card (index % 3 === 1): rises from Bottom
+            - Right card (index % 3 === 2): enters from Right
+            - Continues seamlessly as user scrolls down through all projects */}
+        {activeProjects.length > 0 && (
+          <div className={`grid gap-8 sm:gap-10 ${getGridClasses(activeProjects.length)}`}>
+            {activeProjects.map((project, idx) => {
+              const posInRow = idx % 3;
+              return (
                 <ProjectCard
                   key={project.id}
                   project={project}
                   lang={lang}
                   t={t}
-                  indexNumber={currentPage * itemsPerPage + idx + 1}
+                  indexNumber={idx + 1}
+                  posInRow={posInRow}
+                  isMobile={isMobile}
                   onSelectProject={onSelectProject}
                 />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        )}
-
-        {/* STREAM MODE: All projects displayed under each other with scroll-reveal transitions */}
-        {viewMode === "stream" && activeProjects.length > 0 && (
-          <div className="flex flex-col gap-12 sm:gap-16">
-            {activeProjects.map((project, idx) => {
-              const title = lang === "ar" ? project.title_ar : project.title_en;
-              const companyName = lang === "ar" ? project.company_name_ar : project.company_name_en;
-              const category = lang === "ar" ? project.category_ar : project.category_en;
-              const tag = lang === "ar" ? project.tag_ar : project.tag_en;
-              const desc = lang === "ar" ? project.desc_ar : project.desc_en;
-              const hasVideo = project.hero_media_type === "video" || Boolean(project.video_url);
-
-              return (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  onClick={() => onSelectProject(project)}
-                  data-cursor="VIEW →"
-                  className="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white/[0.02] border border-white/[0.08] hover:border-[#FFD400]/60 p-6 sm:p-10 transition-colors duration-400 cursor-pointer overflow-hidden"
-                >
-                  {/* Visual container (Original proportion friendly) */}
-                  <div className="lg:col-span-7 relative aspect-[16/10] w-full bg-[#121212] overflow-hidden border border-white/10">
-                    <img
-                      src={project.hero_image}
-                      alt={title}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter grayscale-[20%] group-hover:grayscale-0"
-                      loading="lazy"
-                    />
-
-                    {/* Media Badge */}
-                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
-                      <span className="text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 bg-black/85 backdrop-blur-md text-[#FFD400] border border-[#FFD400]/30">
-                        {tag}
-                      </span>
-                      {hasVideo && (
-                        <span className="flex items-center gap-1.5 text-[10px] font-mono text-black font-bold px-2 py-0.5 bg-[#FFD400] rounded">
-                          <Film className="w-3 h-3" />
-                          <span>FILM</span>
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Hover Play / View overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-[#FFD400] text-black flex items-center justify-center shadow-2xl">
-                        {hasVideo ? <Play className="w-7 h-7 fill-black ml-0.5" /> : <ArrowUpRight className="w-7 h-7 stroke-[2.5]" />}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Editorial Content */}
-                  <div className="lg:col-span-5 flex flex-col justify-between h-full py-2">
-                    <div>
-                      <div className="flex items-center justify-between text-xs text-white/50 uppercase tracking-widest mb-4">
-                        <span className="font-mono text-[#FFD400]">0{idx + 1} // {companyName}</span>
-                        <span className="font-mono">{project.year}</span>
-                      </div>
-
-                      <h3 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-white group-hover:text-[#FFD400] transition-colors leading-tight mb-4">
-                        {title}
-                      </h3>
-
-                      <p className="text-xs font-mono uppercase text-white/50 tracking-wider mb-4">
-                        {category}
-                      </p>
-
-                      <p className="text-sm text-white/70 font-light leading-relaxed line-clamp-3 mb-6">
-                        {desc}
-                      </p>
-                    </div>
-
-                    <div className="pt-6 border-t border-white/[0.08] flex items-center justify-between">
-                      {project.metrics && project.metrics.length > 0 ? (
-                        <div>
-                          <span className="font-heading font-black text-2xl text-white block">
-                            {project.metrics[0].val}
-                          </span>
-                          <span className="block text-[10px] uppercase tracking-wider text-white/40">
-                            {lang === "ar" ? project.metrics[0].lbl_ar : project.metrics[0].lbl_en}
-                          </span>
-                        </div>
-                      ) : <div />}
-
-                      <div className="flex items-center gap-2 text-xs font-heading font-extrabold uppercase tracking-widest text-[#FFD400] group-hover:translate-x-1 transition-transform">
-                        <span>{t.viewProject}</span>
-                        <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
               );
             })}
           </div>
@@ -296,18 +120,22 @@ export default function SelectedWorkSection({
   );
 }
 
-// Subcomponent: ProjectCard for Carousel / Grid View
+// Subcomponent: ProjectCard with Directional Scroll Entrance
 function ProjectCard({
   project,
   lang,
   t,
   indexNumber,
+  posInRow,
+  isMobile,
   onSelectProject
 }: {
   project: Project;
   lang: Language;
   t: { viewProject: string };
   indexNumber: number;
+  posInRow: number;
+  isMobile: boolean;
   onSelectProject: (p: Project) => void;
 }) {
   const title = lang === "ar" ? project.title_ar : project.title_en;
@@ -316,22 +144,38 @@ function ProjectCard({
   const tag = lang === "ar" ? project.tag_ar : project.tag_en;
   const hasVideo = project.hero_media_type === "video" || Boolean(project.video_url);
 
+  // Directional entrance per user specification:
+  // posInRow 0 (Left): enters from Left (x: -80)
+  // posInRow 1 (Center): rises from Bottom (y: 80)
+  // posInRow 2 (Right): enters from Right (x: 80)
+  const getInitial = () => {
+    if (isMobile) return { opacity: 0, y: 50 };
+    if (posInRow === 0) return { opacity: 0, x: -80, y: 0 };
+    if (posInRow === 1) return { opacity: 0, x: 0, y: 80 };
+    return { opacity: 0, x: 80, y: 0 };
+  };
+
   return (
     <motion.div
-      layoutId={`project-card-${project.id}`}
+      initial={getInitial()}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.8,
+        delay: isMobile ? 0.05 : posInRow * 0.12,
+        ease: [0.16, 1, 0.3, 1]
+      }}
       onClick={() => onSelectProject(project)}
-      data-cursor="VIEW →"
+      data-cursor={lang === "ar" ? "استعراض المشروع" : "VIEW CASE"}
       whileHover={{ y: -6 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
       className="group relative flex flex-col justify-between bg-white/[0.02] border border-white/[0.08] hover:border-[#FFD400]/60 transition-colors duration-400 overflow-hidden cursor-pointer"
     >
       {/* Visual Image Container */}
       <div className="relative aspect-[16/11] w-full overflow-hidden bg-[#121212]">
-        <motion.img
-          layoutId={`project-img-${project.id}`}
+        <img
           src={project.hero_image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter grayscale-[25%] group-hover:grayscale-0"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter grayscale-[20%] group-hover:grayscale-0"
           loading="lazy"
         />
 
@@ -355,13 +199,9 @@ function ProjectCard({
 
         {/* Magnetic Arrow Overlay Button */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <motion.div
-            initial={{ scale: 0.5, rotate: -20 }}
-            whileHover={{ scale: 1.1, rotate: 0 }}
-            className="w-14 h-14 rounded-full bg-[#FFD400] text-black flex items-center justify-center shadow-2xl"
-          >
+          <div className="w-14 h-14 rounded-full bg-[#FFD400] text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
             {hasVideo ? <Play className="w-6 h-6 fill-black ml-0.5" /> : <ArrowUpRight className="w-6 h-6 stroke-[2.5]" />}
-          </motion.div>
+          </div>
         </div>
       </div>
 

@@ -7,12 +7,30 @@ export interface Lead {
   email: string;
   phone: string;
   serviceNeeded: string;
+  budgetTier?: string;
+  timeline?: string;
   message?: string;
   status: LeadStatus;
   notes?: string;
   source: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface TestimonialItem {
+  id: string;
+  client_name_en: string;
+  client_name_ar: string;
+  client_title_en: string;
+  client_title_ar: string;
+  company_name_en: string;
+  company_name_ar: string;
+  quote_en: string;
+  quote_ar: string;
+  result_metric: string;
+  result_label_en: string;
+  result_label_ar: string;
+  rating: number;
 }
 
 export interface Metric {

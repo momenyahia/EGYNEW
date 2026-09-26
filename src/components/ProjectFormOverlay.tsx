@@ -12,17 +12,6 @@ interface ProjectFormOverlayProps {
   preselectedService?: string;
 }
 
-const serviceOptions = [
-  "Branding & Design",
-  "Strategy & Planning",
-  "Social Media",
-  "Content Production",
-  "Media Buying & Performance",
-  "PR & Communications",
-  "Web Development & Digital",
-  "Events & Activations"
-];
-
 export default function ProjectFormOverlay({
   isOpen,
   lang,
@@ -36,7 +25,7 @@ export default function ProjectFormOverlay({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedService, setSelectedService] = useState(
-    preselectedService || serviceOptions[0]
+    preselectedService || ""
   );
   const [message, setMessage] = useState("");
   const [source, setSource] = useState("Website Direct");
@@ -287,30 +276,26 @@ export default function ProjectFormOverlay({
                     </div>
                   </div>
 
-                  {/* Row 3: Service Selection Pills */}
+                  {/* Row 3: What do you need / Service Needed (Clean text input per user instruction) */}
                   <div>
-                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/50 mb-4">
-                      {t.service} *
+                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/50 mb-2">
+                      {lang === "ar" ? "ما الذي تحتاجه لعلامتك التجارية؟" : "What does your brand need?"} *
                     </label>
-                    <div className="flex flex-wrap gap-2.5">
-                      {serviceOptions.map((srv) => (
-                        <button
-                          key={srv}
-                          type="button"
-                          onClick={() => setSelectedService(srv)}
-                          className={`text-xs font-mono uppercase tracking-wider px-3.5 py-2 transition-all ${
-                            selectedService === srv
-                              ? "bg-[#FFD400] text-black font-bold shadow-md shadow-[#FFD400]/20"
-                              : "bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/30"
-                          }`}
-                        >
-                          {srv}
-                        </button>
-                      ))}
-                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={selectedService}
+                      onChange={(e) => setSelectedService(e.target.value)}
+                      placeholder={
+                        lang === "ar"
+                          ? "اكتب ما تحتاجه هنا (مثال: هوية بصرية، حملة تسويقية، إنتاج فيديو سينمائي، موقع إلكتروني...)"
+                          : "Type what you need (e.g. Brand Identity, Film Production, Growth Campaign, Web Platform...)"
+                      }
+                      className="editorial-input"
+                    />
                   </div>
 
-                  {/* Row 4: Brief Message */}
+                  {/* Row 6: Brief Message */}
                   <div>
                     <label className="block text-[11px] font-mono uppercase tracking-widest text-white/50 mb-2">
                       {t.message}

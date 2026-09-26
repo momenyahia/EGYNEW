@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { fullName, company, email, phone, serviceNeeded, message, source } = body;
+    const { fullName, company, email, phone, serviceNeeded, budgetTier, timeline, message, source } = body;
 
     if (!fullName || !company || !email || !phone || !serviceNeeded) {
       return NextResponse.json(
@@ -37,6 +37,8 @@ export async function POST(req: Request) {
       email: String(email).trim().toLowerCase(),
       phone: String(phone).trim(),
       serviceNeeded: String(serviceNeeded).trim(),
+      budgetTier: budgetTier ? String(budgetTier).trim() : undefined,
+      timeline: timeline ? String(timeline).trim() : undefined,
       message: message ? String(message).trim() : "",
       notes: "Inquiry received via website project overlay.",
       source: source || "Direct Website Form"

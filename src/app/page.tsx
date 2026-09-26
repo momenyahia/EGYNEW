@@ -7,6 +7,7 @@ import WhoWeAreSection from "@/components/WhoWeAreSection";
 import SelectedWorkSection from "@/components/SelectedWorkSection";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
 import ServicesSection from "@/components/ServicesSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import FinalCTASection from "@/components/FinalCTASection";
 import ProjectFormOverlay from "@/components/ProjectFormOverlay";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
@@ -15,7 +16,7 @@ import CustomCursor from "@/components/CustomCursor";
 
 import { Language } from "@/lib/translations";
 import { initialData } from "@/lib/initialData";
-import { Project, ServiceItem, SiteSettings, StatItem } from "@/types";
+import { HeroMediaItem, Project, ServiceItem, SiteSettings, StatItem } from "@/types";
 
 export default function HomePage() {
   const [lang, setLang] = useState<Language>("en");
@@ -25,6 +26,7 @@ export default function HomePage() {
   const [stats, setStats] = useState<StatItem[]>(initialData.stats);
   const [services, setServices] = useState<ServiceItem[]>(initialData.services);
   const [projects, setProjects] = useState<Project[]>(initialData.projects);
+  const [heroMedia, setHeroMedia] = useState<HeroMediaItem[]>(initialData.hero_media || []);
 
   // Modal / Interaction states
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -42,10 +44,11 @@ export default function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [contentRes, projRes, srvRes] = await Promise.all([
+        const [contentRes, projRes, srvRes, heroRes] = await Promise.all([
           fetch("/api/content"),
           fetch("/api/projects"),
-          fetch("/api/services")
+          fetch("/api/services"),
+          fetch("/api/hero-media")
         ]);
 
         if (contentRes.ok) {
@@ -65,6 +68,13 @@ export default function HomePage() {
           const sData = await srvRes.json();
           if (sData.services && sData.services.length > 0) {
             setServices(sData.services);
+          }
+        }
+
+        if (heroRes.ok) {
+          const hData = await heroRes.json();
+          if (hData.hero_media && hData.hero_media.length > 0) {
+            setHeroMedia(hData.hero_media);
           }
         }
       } catch (err) {
@@ -108,6 +118,7 @@ export default function HomePage() {
           lang={lang}
           headline={lang === "ar" ? settings.hero_headline_ar : settings.hero_headline_en}
           subheadline={lang === "ar" ? settings.hero_subheadline_ar : settings.hero_subheadline_en}
+          heroMedia={heroMedia}
           onOpenProjectForm={() => setIsFormOpen(true)}
         />
 
@@ -133,6 +144,9 @@ export default function HomePage() {
           settings={settings}
           onSelectService={handleOpenFormWithService}
         />
+
+        {/* 10.5 — Verified Executive Testimonials */}
+        <TestimonialsSection lang={lang} />
 
         {/* 11 — Final CTA */}
         <FinalCTASection

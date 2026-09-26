@@ -29,6 +29,7 @@ export default function Header({
   }, []);
 
   const navLinks = [
+    { label: lang === "ar" ? "الرئيسية" : "Home", href: "#hero" },
     { label: t.about, href: "#about" },
     { label: t.work, href: "#work" },
     { label: t.services, href: "#services" }

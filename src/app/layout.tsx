@@ -24,21 +24,61 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Egypt Creative — One Agency. Everything Your Brand Needs.",
-  description: "Egypt Creative is a premier creative & full-service marketing agency. Strategy, branding, cinematic video production, performance marketing, and bespoke web platforms.",
+  metadataBase: new URL("https://egyptcreative.com"),
+  title: {
+    default: "Egypt Creative — One Agency. Everything Your Brand Needs.",
+    template: "%s | Egypt Creative"
+  },
+  description:
+    "Egypt Creative is a premier creative & full-service marketing agency based in Cairo. Brand strategy, cinematic video production, performance marketing, and bespoke web platforms.",
   keywords: [
     "Egypt Creative",
     "Creative Agency Egypt",
     "Marketing Agency Cairo",
     "Branding Cairo",
-    "Performance Marketing",
-    "Media Production Egypt"
+    "Performance Marketing Egypt",
+    "Media Production Cairo",
+    "إيجيبت كرييتف",
+    "وكالة تسويق ودعاية مصر"
   ],
+  authors: [{ name: "Egypt Creative Team" }],
+  creator: "Egypt Creative",
   openGraph: {
     title: "Egypt Creative — One Agency. Everything Your Brand Needs.",
-    description: "Creative & Full-Service Marketing Agency based in Cairo.",
-    type: "website",
-    locale: "en_US"
+    description:
+      "Premier creative & full-service marketing agency based in Cairo. Strategy, branding, cinematic video production, and bespoke web platforms.",
+    url: "https://egyptcreative.com",
+    siteName: "Egypt Creative",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Egypt Creative — Creative & Full-Service Marketing Agency"
+      }
+    ],
+    locale: "en_US",
+    alternateLocale: ["ar_EG"],
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Egypt Creative — One Agency. Everything Your Brand Needs.",
+    description:
+      "Premier creative & full-service marketing agency based in Cairo. Strategy, branding, cinematic video production, and bespoke web platforms.",
+    images: ["/logo.png"],
+    creator: "@egyptcreative"
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
   }
 };
 
